@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "509279556422",
+    "project_id": "juego-3ea19",
+    "storage_bucket": "juego-3ea19.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:509279556422:android:1081ddf8654fc465a5cb47",
+        "android_client_info": {
+          "package_name": "com.proyecto.parcial3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "509279556422-e6r3e6ecml9s8osbieavrblbfhbs7rvt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQSU9hcDsD-3s-TBtiDrYDGrYjvuqRnvI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "509279556422-e6r3e6ecml9s8osbieavrblbfhbs7rvt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
