@@ -8,11 +8,26 @@
 
     <TextView
         android:id="@+id/nom_jugador"
-        android:layout_width="198dp"
-        android:layout_height="53dp"
+        android:layout_width="189dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="51dp"
+        android:layout_marginTop="61dp"
+        android:layout_marginEnd="30dp"
         android:gravity="center"
         android:hint="Nombre"
         android:textSize="40dp"
-        tools:layout_editor_absoluteX="106dp"
-        tools:layout_editor_absoluteY="90dp" />
+        app:layout_constraintEnd_toStartOf="@+id/puntaje"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/puntaje"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginEnd="41dp"
+        android:gravity="center"
+        android:textSize="40dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/nom_jugador"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/nom_jugador" />
 </androidx.constraintlayout.widget.ConstraintLayout>

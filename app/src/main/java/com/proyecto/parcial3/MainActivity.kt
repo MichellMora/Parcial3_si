@@ -38,7 +38,8 @@ class MainActivity : AppCompatActivity() {
             if(etUser.text.toString().isNotEmpty()) {
 
                 bd.collection("usuarios").document(etUser.text.toString()).set(
-                        hashMapOf("Nombre" to etUser.text.toString()
+                        hashMapOf("Nombre" to etUser.text.toString(),
+                            "Puntaje" to "0"
                         )
                     )
                 registro_datos()
@@ -70,6 +71,7 @@ class MainActivity : AppCompatActivity() {
 
         val registro = Intent(this, Juego()::class.java).apply {
             putExtra("usuario", etUser.text.toString())
+            putExtra("puntaje", "0")
 
         }
 
