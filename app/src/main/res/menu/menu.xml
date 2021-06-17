@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/volver_menu"
+        android:icon="@drawable/ic_baseline_navigate_before_24"
+        android:title="Salir"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/perfil_menu"
+        android:icon="@drawable/ic_baseline_format_list_numbered_24"
+        android:title="Perfil"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/salir_menu"
+        android:icon="@drawable/salir_icon"
+        android:title="Salir"
+        app:showAsAction="always"/>
+
+
+</menu>

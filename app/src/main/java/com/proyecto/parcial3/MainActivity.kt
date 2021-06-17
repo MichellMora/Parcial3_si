@@ -1,14 +1,10 @@
 package com.proyecto.parcial3
 
-import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -27,22 +23,31 @@ class MainActivity : AppCompatActivity() {
 
 
         registrar()
+        iniciar()
     }
 
     private fun registrar() {
 
         btn_registrar.setOnClickListener {
 
-            etPass.setText(etUser.text.toString())
+            if(etUser.text.toString().isNotEmpty() && etPass.text.toString().isNotEmpty()) {
 
-            if(etUser.text.toString().isNotEmpty()) {
+                bd.collection("usuarios").document(etUser.text.toString())
+                        .get().addOnSuccessListener { documento ->
+                            if(documento.exists()){
 
-                bd.collection("usuarios").document(etUser.text.toString()).set(
-                        hashMapOf("Nombre" to etUser.text.toString(),
-                            "Puntaje" to "0"
-                        )
-                    )
-                registro_datos()
+                                registroAlertaError2()
+
+                            }else{
+                                bd.collection("usuarios").document(etUser.text.toString()).set(
+                                        hashMapOf("Nombre" to etUser.text.toString(),
+                                                "Contraseña" to etPass.text.toString(),
+                                                "Puntaje" to "0"
+                                        )
+                                )
+                                registro_datos(etUser.text.toString())
+                            }
+                        }
 
             }else
 
@@ -51,31 +56,108 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
+    }
 
+    private fun iniciar() {
 
+        btn_inicio.setOnClickListener {
+
+            bd.collection("usuarios").document(etUser.text.toString())
+                   .get().addOnSuccessListener { documento ->
+
+                        if (documento.exists()){
+
+                            if (documento.data?.get("Nombre") == etUser.text.toString()){
+
+                                if(documento.data?.get("Contraseña") == etPass.text.toString()){
+
+                                    registro_datos(etUser.text.toString())
+
+                                }else{
+                                    contraseñamal()
+                                }
+                            }
+                        }else {
+                           usuariomal()
+                        }
+
+                    }
+        }
     }
 
 
     private fun registroAlertaError() {
 
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Error en Registro")
-        builder.setMessage("Registro NO Exitoso")
+        builder.setTitle("Registro NO Exitoso")
+        builder.setMessage("Completa todos los campos para realizar el registro")
         builder.setPositiveButton("Aceptar", null)
         val dialog: AlertDialog = builder.create()
         dialog.show()
 
     }
 
-    private fun registro_datos() {
+    private fun registroAlertaError2() {
 
-        val registro = Intent(this, Juego()::class.java).apply {
-            putExtra("usuario", etUser.text.toString())
-            putExtra("puntaje", "0")
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Registro NO Exitoso")
+        builder.setMessage("El nombre de usuario ya existe, intenta con otro nombre")
+        builder.setPositiveButton("Aceptar", null)
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
 
-        }
+    }
 
-        startActivity(registro)
+    private fun contraseñamal() {
+
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Ingreso NO Exitoso")
+        builder.setMessage("La contraseña no es correcta")
+        builder.setPositiveButton("Aceptar", null)
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
+
+    }
+
+    private fun usuariomal() {
+
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Ingreso NO Exitoso")
+        builder.setMessage("Usuario no registrado")
+        builder.setPositiveButton("Aceptar", null)
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
+
+    }
+
+    private fun registroAlertaBien() {
+
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Verificación")
+        builder.setMessage("Si tomo en cuenta esto")
+        builder.setPositiveButton("Aceptar", null)
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
+
+    }
+
+    private fun registro_datos(nombre:String) {
+
+        bd.collection("usuarios").document(nombre).get()
+            .addOnSuccessListener { documentSnapshot ->
+                val puntaje = documentSnapshot.getString("Puntaje")
+
+                val registro = Intent(this, Juego()::class.java).apply {
+                    putExtra("usuario", etUser.text.toString())
+                    putExtra("contraseña", etPass.text.toString())
+                    putExtra("puntaje", puntaje)
+
+                }
+
+                startActivity(registro)
+
+            }
+
     }
 
 }
