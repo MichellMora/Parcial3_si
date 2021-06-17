@@ -32,6 +32,7 @@ public class Puntaje_Jugador extends AppCompatActivity {
         tvPuntaje = findViewById(R.id.tvPuntaje);
 
         basededatos(nombre,tvJugador,tvPuntaje);
+
     }
 
     private void basededatos(String nombre, TextView tvJugador, TextView tvPuntaje) {
