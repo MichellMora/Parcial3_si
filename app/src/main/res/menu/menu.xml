@@ -9,6 +9,12 @@
         app:showAsAction="always"/>
 
     <item
+        android:id="@+id/puntaje"
+        android:icon="@drawable/ic_baseline_stars_24"
+        android:title="Salir"
+        app:showAsAction="always"/>
+
+    <item
         android:id="@+id/perfil_menu"
         android:icon="@drawable/ic_baseline_format_list_numbered_24"
         android:title="Perfil"
@@ -19,6 +25,7 @@
         android:icon="@drawable/salir_icon"
         android:title="Salir"
         app:showAsAction="always"/>
+
 
 
 </menu>

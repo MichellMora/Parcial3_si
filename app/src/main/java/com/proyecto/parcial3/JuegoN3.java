@@ -324,12 +324,27 @@ public class JuegoN3 extends AppCompatActivity {
                 }
 
                 if(id == R.id.volver_menu){
-                    volverainicio();
+                    volver();
+                }
+
+                if(id == R.id.puntaje){
+                    Act_PuntajeUsuario(puntaje);
                 }
             }
         });
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void Act_PuntajeUsuario(String puntaje) {
+
+        Bundle bundle = this.getIntent().getExtras();
+        String nombre = bundle.getString("usuario");
+
+        Intent intent = new Intent(this, Puntaje_Jugador.class);
+        intent.putExtra(nombre, "usuario");
+        intent.putExtra(puntaje, "puntaje");
+        startActivity(intent);
     }
 
     public  void  volver (){
@@ -349,8 +364,8 @@ public class JuegoN3 extends AppCompatActivity {
         String nombre = bundle.getString("usuario");
 
         Intent intent = new Intent(this, Puntaje_jugadores.class);
-        intent.putExtra(nombre, "usuario");
-        intent.putExtra(puntaje, "puntaje");
+        intent.putExtra("usuario", nombre);
+        intent.putExtra("puntaje" , puntaje );
         startActivity(intent);
     }
 

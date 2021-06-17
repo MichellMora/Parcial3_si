@@ -58,15 +58,6 @@ public class Juego extends AppCompatActivity {
         Log.d("Puntaje", puntaje);
         String contraseña = bundle.getString("contraseña");
 
-
-        if (Integer.valueOf(puntaje) == 9){
-            Nivel_2(nombre,puntaje,contraseña);
-        }else if(Integer.valueOf(puntaje) == 18){
-            Nivel_3(nombre,puntaje,contraseña);
-        }else if(Integer.valueOf(puntaje) == 27){
-            Act_Puntaje(puntaje);
-        }
-
         tvnom = findViewById(R.id.nom_jugador);
         tvpuntaje = findViewById(R.id.puntaje);
 
@@ -78,15 +69,6 @@ public class Juego extends AppCompatActivity {
         gameView = new GameView(this);
         setContentView(gameView);
 
-    }
-
-    private void Nivel_3(String nombre, String puntaje, String contraseña) {
-
-        Intent intent = new Intent(this, JuegoN3.class);
-        intent.putExtra("usuario", nombre);
-        intent.putExtra("puntaje", puntaje);
-        intent.putExtra("contraseña", contraseña);
-        startActivity(intent);
     }
 
     protected void onResume() {
@@ -214,6 +196,28 @@ public class Juego extends AppCompatActivity {
 
     }
 
+    private void basededatosp() {
+
+        Bundle bundle = this.getIntent().getExtras();
+        String nombre = bundle.getString("usuario");
+        Log.d("Nombre1", nombre);
+
+        bd.collection("usuarios").document(nombre)
+                .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                String nom = documentSnapshot.getString("Nombre");
+                String puntaje = documentSnapshot.getString("Puntaje");
+                String contraseña = documentSnapshot.getString("Contraseña");
+
+                Act_PuntajeUsuario(nom,puntaje,contraseña);
+                Log.d("Nombre2", nom);
+            }
+        });
+
+    }
+
     public void preguntas(int pint){
 
         if (pint==0){
@@ -330,10 +334,11 @@ public class Juego extends AppCompatActivity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
 
                 String puntaje = documentSnapshot.getString("Puntaje");
+                String nombre = documentSnapshot.getString("Nombre");
 
                 int id = item.getItemId();
                 if (id == R.id.perfil_menu) {
-                    Act_Puntaje(puntaje);
+                    Act_Puntaje(nombre,puntaje);
                 }
 
                 if(id == R.id.salir_menu){
@@ -343,6 +348,12 @@ public class Juego extends AppCompatActivity {
                 if(id == R.id.volver_menu){
                     volver();
                 }
+
+                if(id == R.id.puntaje){
+                    basededatosp();
+                }
+
+
             }
         });
 
@@ -361,14 +372,21 @@ public class Juego extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void Act_Puntaje(String puntaje) {
-
-        Bundle bundle = this.getIntent().getExtras();
-        String nombre = bundle.getString("usuario");
+    private void Act_Puntaje(String nombre, String puntaje) {
 
         Intent intent = new Intent(this, Puntaje_jugadores.class);
-        intent.putExtra(nombre, "usuario");
-        intent.putExtra(puntaje, "puntaje");
+        intent.putExtra("usuario", nombre);
+        intent.putExtra("puntaje", puntaje);
+        startActivity(intent);
+    }
+
+    private void Act_PuntajeUsuario(String nombre, String puntaje, String contraseña) {
+
+        Intent intent = new Intent(this, Puntaje_Jugador.class);
+        intent.putExtra("usuario", nombre);
+        Log.d("Nombre3",nombre);
+        intent.putExtra("puntaje", puntaje);
+        intent.putExtra("contraseña", contraseña);
         startActivity(intent);
     }
 
