@@ -311,7 +311,7 @@ public class Juego extends AppCompatActivity {
             AlertDialog dialog = var10000;
             dialog.show();
 
-        }else if(pint == 9){
+        }else if(pint >= 9){
            Felicitaciones();
         }
 

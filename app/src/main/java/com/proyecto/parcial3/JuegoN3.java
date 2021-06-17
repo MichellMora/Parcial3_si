@@ -328,7 +328,7 @@ public class JuegoN3 extends AppCompatActivity {
                 }
 
                 if(id == R.id.puntaje){
-                    Act_PuntajeUsuario(puntaje);
+                    basededatosp();
                 }
             }
         });
@@ -336,14 +336,33 @@ public class JuegoN3 extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void Act_PuntajeUsuario(String puntaje) {
+    private void basededatosp() {
 
         Bundle bundle = this.getIntent().getExtras();
         String nombre = bundle.getString("usuario");
+        Log.d("Nombre1", nombre);
+
+        bd.collection("usuarios").document(nombre)
+                .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                String nom = documentSnapshot.getString("Nombre");
+                String puntaje = documentSnapshot.getString("Puntaje");
+                String contraseña = documentSnapshot.getString("Contraseña");
+
+                Act_PuntajeUsuario(nom,puntaje,contraseña);
+                Log.d("Nombre2", nom);
+            }
+        });
+
+    }
+
+    private void Act_PuntajeUsuario(String nombre, String puntaje, String contraseña) {
 
         Intent intent = new Intent(this, Puntaje_Jugador.class);
-        intent.putExtra(nombre, "usuario");
-        intent.putExtra(puntaje, "puntaje");
+        intent.putExtra("usuario", nombre);
+        intent.putExtra("puntaje", puntaje);
         startActivity(intent);
     }
 
